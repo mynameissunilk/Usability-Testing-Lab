@@ -20,11 +20,21 @@ public class DetailActivity extends AppCompatActivity {
         // if the sign was not added to the intent, getStringExtra() would return null
         if (selectedSign != null) {
 
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.horoscopedates.com/zodiac-signs/" + selectedSign));
-            startActivity(intent);
+            //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.horoscopedates.com/zodiac-signs/" + selectedSign));
+            //startActivity(intent);
+
 
             //TODO rather than launch the link externally in the broswer, launch in the detail fragment's webview
             //TODO - (hint: you'll need to get a reference to the detail fragment that's loaded in this activity)
+
+
+            // if this activity is launched, then the device is a tablet, so the detailfragment is
+            // going to launch from here
+
+
+            DetailFragment detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.detail_fragment);;
+            detailFragment.updateWebView(selectedSign);
+
         }
     }
 }

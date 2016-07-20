@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 public class MainActivity extends AppCompatActivity
         implements ListFragment.OnZodiacSignSelectedListener {
 
-    private boolean mScreenIsLageEnoughForTwoPanes = false;
+    private boolean tabscreen = false;
     private DetailFragment mDetailFragment = null;
 
     @Override
@@ -21,16 +21,26 @@ public class MainActivity extends AppCompatActivity
         ListFragment listFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list_fragment);
         listFragment.setListener(this);
 
-        //TODO determine which layout file is being used (hint: is there an element in the large-screen
-        //TODO  layout that's not in the regular layout?) and if the large screen layout is being used,
-        //TODO  then load the detail fragment in MainActivity rather than using DetailActivity
+        DetailFragment detailFragment = (DetailFragment)getSupportFragmentManager().findFragmentById(R.id.detail_fragment_container);
+
+
+        // if(mainlayout contains the framelayout with the detail_fragment_container id)
+        // return tabscreen is true or false, the rest is handled by the zodiacsignselected method
+
+
     }
 
     @Override
     public void onZodiacSignSelected(String zodiacSignSelected) {
+
+        // if mScreenIsLargeEnoughForTwoPages
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(DetailActivity.SIGN_KEY, zodiacSignSelected);
         startActivity(intent);
+
+        // depending on the screensize, launch the fragment in this activity or the detailactivity
+
+
 
         //TODO - if the detail fragment is loaded into MainActivity, update it rather than launching
         //TODO      the DetailActivity
