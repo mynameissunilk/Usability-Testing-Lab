@@ -3,12 +3,11 @@ package com.charlesdrews.usabilitytestinglab;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity
         implements ListFragment.OnZodiacSignSelectedListener {
 
-    private boolean tabscreen = false;
+    private boolean isTabScreen = false;
     private DetailFragment mDetailFragment = null;
 
     @Override
@@ -24,20 +23,28 @@ public class MainActivity extends AppCompatActivity
         DetailFragment detailFragment = (DetailFragment)getSupportFragmentManager().findFragmentById(R.id.detail_fragment_container);
 
 
-        // if(mainlayout contains the framelayout with the detail_fragment_container id)
-        // return tabscreen is true or false, the rest is handled by the zodiacsignselected method
-
+        //if layout has "mainactivity_xlarge" or "mainactivity_large" tags, we know a tablet layout was chosen
+        if(findViewById(R.id.detail_fragment_container).getTag().equals("mainactivity_large") ||
+                findViewById(R.id.detail_fragment_container).equals("mainactivity_xlarge")){
+            isTabScreen = true;
+        }
+        else isTabScreen = false;
 
     }
 
     @Override
     public void onZodiacSignSelected(String zodiacSignSelected) {
 
-        // if mScreenIsLargeEnoughForTwoPages
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra(DetailActivity.SIGN_KEY, zodiacSignSelected);
-        startActivity(intent);
-
+        if(isTabScreen){
+            DetailFragment tabletFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.detail_fragment_container);
+            tabletFragment.updateWebView(zodiacSignSelected);
+        }
+        else {
+            //if it's a phone do this
+            Intent intent = new Intent(this, DetailActivity.class);
+            intent.putExtra(DetailActivity.SIGN_KEY, zodiacSignSelected);
+            startActivity(intent);
+        }
         // depending on the screensize, launch the fragment in this activity or the detailactivity
 
 
